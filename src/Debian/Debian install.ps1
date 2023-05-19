@@ -26,7 +26,7 @@ $VirtualBox = "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"
 & $VirtualBox storageattach $VMName --storagectl 'SATA Controller' --port 0 --device 0 --type hdd --medium $VMPath
 
 # Add Internal Network
-& $VirtualBox modifyvm "$VMName" --nic2 bridged
+& $VirtualBox modifyvm "$VMName" --nic2 intnet --intnet2 "intnet"
 
 # Add NAT Network
 & $VirtualBox modifyvm "$VMName" --nic1 nat
