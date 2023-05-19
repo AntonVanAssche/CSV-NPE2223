@@ -2,7 +2,7 @@
 
 # Variabels
 connection="Wired connection 1"
-new_ip="192.169.45.65/24"
+new_ip="192.168.45.65/24"
 gateway_ip="192.168.45.1"
 
 # Install and Update
