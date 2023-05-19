@@ -1,6 +1,6 @@
 #!/bin/bash
 
-interface="Wired connection 3"
+interface="Wired connection 2"
 new_ip="192.168.45.55/24"
 gateway_ip="192.168.45.1"
 connection="eth1"
