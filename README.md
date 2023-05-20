@@ -8,7 +8,7 @@ The objective of this project was to identify and exploit a vulnerability within
 
 1.   Debian: The Debian virtual machine can be obtained from the following link: [Debian Virtual Machine](https://www.osboxes.org/debian/#debian-8-jessie-vbox). It is based on Debian 8 (Jessie) for VirtualBox.
 
-2.   Kali: The Kali Linux virtual machine is available for download at: Kali [Linux Virtual Machine](https://www.osboxes.org/kali-linux/#kali-linux-2019-1-vbox). The provided image corresponds to Kali Linux 2019.1 for VirtualBox.
+2.   Kali: The Kali Linux virtual machine is available for download at: Kali [Linux Virtual Machine](https://www.osboxes.org/kali-linux/#kali-linux-2022-3-vbox). The provided image corresponds to Kali Linux 2019.1 for VirtualBox.
 
 These virtual machines were used as part of the project to set up the necessary environments for vulnerability identification and exploitation.
 
