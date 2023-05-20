@@ -10,13 +10,12 @@ command -v virtualbox &> /dev/null || {
     export PATH=${PATH}:/usr/local/bin
 }
 
-vm_name="Debian_11"
+vm_name="Debian"
 vm_path="${HOME}/VirtualBox VMs/"
 
 vboxmanage createvm --name "${vm_name}" --ostype "Debian_64" --register
 vboxmanage modifyvm "${vm_name}" --cpus 2 --memory 2048 --boot1=disk
 vboxmanage storagectl "${vm_name}" --name "SATA Controller" --add sata --controller IntelAHCI
 vboxmanage storageattach "${vm_name}" --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "${vm_path}/${vm_name,,}.vdi"
-vboxmanage modifyvm "${vm_name}" --nic1 nat
-vboxmanage modifyvm "${vm_name}" --nic2 briged
+vboxmanage modifyvm "${vm_name}" --nic1 bridged --nictype1 82545EM --bridgeadapter1 wlp0s20f3
 vboxmanage startvm "${vm_name}"
