@@ -10,7 +10,7 @@ command -v virtualbox &> /dev/null || {
     export PATH=${PATH}:/usr/local/bin
 }
 
-vm_name="Kali_11"
+vm_name="Kali"
 vm_path="${HOME}/VirtualBox VMs/"
 
 vboxmanage createvm --name "${vm_name}" --ostype "Kali_64" --register
