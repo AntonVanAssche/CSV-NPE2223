@@ -4,8 +4,8 @@ if ((Get-Command VBoxManage.exe -ErrorAction SilentlyContinue) -eq $null) {
 }
 
 # Variables
-$VMName = "Kali-Client"
-$VMPath = "C:\Users\$env:USERNAME\Downloads\Kali.vdi"
+$VMName = "Kali"
+$VMPath = "C:\Users\brabo\Documents\Hogent\CyberSecurity\VDI\Kali.vdi"
 if (-not (test-path $VMPath)) {
     "$VMPath is not correct, please change parameter before running the script."
      return
@@ -22,11 +22,8 @@ $VirtualBox = "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"
 & $VirtualBox storagectl    $VMName --name       'SATA Controller' --add sata --controller IntelAHCI
 & $VirtualBox storageattach $VMName --storagectl 'SATA Controller' --port 0 --device 0 --type hdd --medium $VMPath
 
-# Add Internal Network
-& $VirtualBox modifyvm "$VMName" --nic2 intnet --intnet2 "intnet"
-
-# Add NAT Network
-& $VirtualBox modifyvm "$VMName" --nic1 nat
+# Add Bridged Network
+& $VirtualBox modifyvm "$VMName" --nic1 bridged --bridgeadapter1 Intel(R) Wi-Fi 6 AX201 160MHz
 
 # Start the VM
 & $VirtualBox startvm $VMName 

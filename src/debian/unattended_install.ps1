@@ -25,11 +25,8 @@ $VirtualBox = "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"
 & $VirtualBox storagectl    $VMName --name       'SATA Controller' --add sata --controller IntelAHCI
 & $VirtualBox storageattach $VMName --storagectl 'SATA Controller' --port 0 --device 0 --type hdd --medium $VMPath
 
-# Add Internal Network
-& $VirtualBox modifyvm "$VMName" --nic2 intnet --intnet2 "intnet"
-
-# Add NAT Network
-& $VirtualBox modifyvm "$VMName" --nic1 nat
+# Add Bridged Network
+& $VirtualBox modifyvm "$VMName" --nic1 bridged --bridgeadapter1 Intel(R) Wi-Fi 6 AX201 160MHz
 
 # Start the VM
 & $VirtualBox startvm $VMName
