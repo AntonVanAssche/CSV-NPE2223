@@ -1,5 +1,7 @@
 # User Deployment Guide - CVE-2019-6111
 
+Deze deloyment guide beschrijft alle nodige stappen die vereist zijn om de CVE-2019-6111 exploit uit te voeren, met als resultaat een reverse shell op de Debian client.
+
 ## Inhoudsopgave
 
 1.  [Vereisten](#vereisten)
@@ -18,8 +20,6 @@
 -   [Git](https://git-scm.com/downloads)
 -   [Debian (Jessie) vdi](https://www.osboxes.org/debian/#debian-8-jessie-vbox)
 -   [Kali Linux (Rolling) vdi](https://www.osboxes.org/kali-linux/#kali-rolling-vbox)
-
-<div class="page"/>
 
 # Instellen Omgeving<a name="instellen-omgeving"></a>
 
@@ -82,8 +82,6 @@ $ scp 192.168.0.121:testfile.txt .
 
 Na het uitvoeren zal men zien dat er inderdaad een bestand genaamd `testfile.txt` is gedownload. Maar wanneer we `ls -a` doen zal men al snel zien dat er ook een bestand `.backdoor` is gedownload en de `.bashrc` file is aangepast.
 
-<div class="page"/>
-
 # Metasploit<a name="metasploit"></a>
 
 Na dat de backdoor op de Debian client is gedownload, kunnen we een reverse shell opzetten. Hiervoor gebruiken we de Metasploit framework. Om de Metasploit framework te starten, moeten we het volgende commando uitvoeren:
@@ -105,5 +103,3 @@ Om een reverse shell op te zetten, moeten we dan simpeleweg het volgende command
 ```console
 meterpreter > shell
 ```
-
-<div class="page"/>
