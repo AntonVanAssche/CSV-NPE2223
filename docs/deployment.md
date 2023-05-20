@@ -70,6 +70,14 @@ Ook zal men de backdoor in de `/tmp` map moeten plaatsen. Deze backdoor is te vi
 # cp -r CSV-NPE2223/src/kali/provision/backdoor /tmp/backdoor
 ```
 
+Als laatste stap moeten we de `ssh` server opstarten.
+
+**Opmerking**: Het is belangrijk dat je dit commando uitvoert als root.
+
+```console
+# systemctl start ssh
+```
+
 <div class="page"/>
 
 # CVE-2019-6111<a name="cve-2019-6111"></a>
