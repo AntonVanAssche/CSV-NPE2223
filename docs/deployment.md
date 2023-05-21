@@ -53,7 +53,7 @@ of
 PS1> .\unattended_install.ps1
 ```
 
-Deze exploit vereist dat de Debian-client een bestand van een "bad" scp-server downloadt. In dit geval is de Kali-virtuele machine de "slechte" scp-server. Om van onze Kali-machine een "bad" scp-server te maken, moeten we een aangepaste scp-binary installeren. Deze binary bevindt zich in de map `src/kali/provision/golang/bin` van deze repository.
+Deze exploit vereist dat de Debian-client een bestand van een "bad" scp-server downloadt. In dit geval is de Kali-virtuele machine de "bad" scp-server. Om van onze Kali-machine een "bad" scp-server te maken, moeten we een aangepaste scp-binary installeren. Deze binary bevindt zich in de map `src/kali/provision/golang/bin` van deze repository.
 
 **Opmerking**: Voer dit commando uit als root.
 
