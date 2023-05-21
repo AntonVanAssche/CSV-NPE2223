@@ -1,6 +1,6 @@
 # User Deployment Guide - CVE-2019-6111
 
-Deze deloyment guide beschrijft alle nodige stappen die vereist zijn om de CVE-2019-6111 exploit uit te voeren, met als resultaat een reverse shell op de Debian client.
+Deze deployment guide beschrijft alle nodige stappen die vereist zijn om de CVE-2019-6111 exploit uit te voeren, met als resultaat een reverse shell op de Debian client.
 
 ## Inhoudsopgave
 
@@ -68,6 +68,12 @@ Ook zal men de backdoor in de `/tmp` map moeten plaatsen. Deze backdoor is te vi
 
 ```console
 # cp -r CSV-NPE2223/src/kali/provision/backdoor /tmp/backdoor
+```
+
+Deze backdoor is gelinkt aan het IP `192.168.0.121`, daarom moeten we de IP van de Kali machine aanpassen naar a.d.h.v. het `ip.sh` script in de map `src/kali/provision/`. Om dit script uit te voeren, moet je het volgende commando uitvoeren:
+
+```console
+$ ./ip.sh
 ```
 
 Als laatste stap moeten we de `ssh` server opstarten.
