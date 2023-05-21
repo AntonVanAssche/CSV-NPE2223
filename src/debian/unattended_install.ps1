@@ -7,10 +7,10 @@ if ((Get-Command VBoxManage.exe -ErrorAction SilentlyContinue) -eq $null) {
 
 # Variables
 $VMName = "Debian-Client"
-$VMPath = "C:\Users\$env:USERNAME\Downloads\Debian.vdi"
+$VMPath = "C:\Users\brabo\Documents\Hogent\CyberSecurity\VDI\Debian.vdi"
 
 if (-not (test-path $VMPath)) {
-    "$VMPath is not wright, please change parameter before running script."
+    "$VMPath is not correct, please change parameter before running script."
      return
      }
 

@@ -16,7 +16,7 @@ $VirtualBox = "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"
 & $VirtualBox createvm --name $VMName --ostype Linux26_64 --register
 
 # Configure the virtual machine to use 2 CPU and 2048 Mb of RAM
-& $VirtualBox modifyvm "$VMName" --cpus 2 --memory 2048 --boot1=disk --boot2=dvd
+& $VirtualBox modifyvm "$VMName" --cpus 2 --memory 2048 --boot1=disk
 
 # Add SATA controller and attach hard disk to it
 & $VirtualBox storagectl    $VMName --name       'SATA Controller' --add sata --controller IntelAHCI
